@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['username'] = $username;
-            $_SESSION['username'] != "guest_viewer" ?
+            $_SESSION['username'] == "admin" ?
                 header('Location: adminDashboard.php') :
                 header('Location: guestDashboard.php');
             exit();

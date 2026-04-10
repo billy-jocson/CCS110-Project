@@ -58,7 +58,9 @@ $totalEmployees = $countResult->fetch_assoc()['total'];
 
             <div class="p-10 bg-blue-800 rounded-lg shadow-lg inline-block text-white">
                 <h1 class="text-xl">Total Employees</h1>
-                <p class="text-4xl font-bold"><?php echo $totalEmployees; ?></p>
+                <p class="text-4xl font-bold">
+                    <?php echo $totalEmployees; ?>
+                </p>
             </div>
         </main>
     </div>

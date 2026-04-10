@@ -34,21 +34,6 @@ if (!isset($_SESSION['username'])) {
             </h1>
         </main>
     </div>
-
-    <?php include('../components/addEmployeeModal.php'); ?>
-
-    <?php if (isset($_GET['success'])): ?>
-        <div id="successModal" class="fixed inset-0 bg-black/30 backdrop-blur-sm z-[60] flex items-center justify-center">
-            <div class="bg-white p-8 rounded-2xl shadow-2xl text-center w-80">
-                <h2 class="text-2xl font-bold">Success!</h2>
-                <p class="text-gray-600 mt-2">Employee added successfully.</p>
-                <button onclick="closeSuccessModal()"
-                    class="mt-6 w-full bg-green-600 text-white py-2 rounded-lg">Continue</button>
-            </div>
-        </div>
-    <?php endif; ?>
-
-    <script src="../script.js"></script>
 </body>
 
 </html>

@@ -10,7 +10,7 @@
     <div class="w-full bg-zinc-700 mx-auto mb-5" style="height: 0.1px"></div>
 
     <nav class="flex flex-col gap-2 cursor-pointer px-5 text-gray-50">
-        <?php $_SESSION['username'] != "guest_viewer" ? include('adminSidePanel.php') : include('guestSidePanel.php') ?>
+        <?php $_SESSION['username'] == "admin" ? include('adminSidePanel.php') : include('guestSidePanel.php') ?>
     </nav>
 
     <div class="mt-auto p-5 flex gap-4">
