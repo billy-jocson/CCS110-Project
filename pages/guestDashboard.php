@@ -6,29 +6,6 @@ if (!isset($_SESSION['username'])) {
     header("Location: ./login.php");
     exit();
 }
-
-$dept_id = $first_name = $last_name = $position = $contact = "";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-    $dept_id = $_POST['department'];
-    $first_name = htmlspecialchars($_POST['first_name']);
-    $last_name = htmlspecialchars($_POST['last_name']);
-    $position = htmlspecialchars($_POST['position']);
-    $contact = htmlspecialchars($_POST['contact']);
-
-    if (!empty($dept_id) && !empty($first_name) && !empty($last_name) && !empty($position) && !empty($contact)) {
-        $stmt = $conn->prepare("INSERT INTO employees(dept_id, first_name, last_name, employee_position, employee_contact) VALUES(?, ?, ?, ?, ?)");
-        $stmt->bind_param("issss", $dept_id, $first_name, $last_name, $position, $contact);
-
-        if ($stmt->execute()) {
-            header("Location: adminDashboard.php?success=1");
-            exit();
-        }
-    }
-}
-
-$countResult = $conn->query("SELECT COUNT(*) as total FROM employees");
-$totalEmployees = $countResult->fetch_assoc()['total'];
 ?>
 
 <!DOCTYPE html>
@@ -55,14 +32,9 @@ $totalEmployees = $countResult->fetch_assoc()['total'];
 
                 <?php echo $_SESSION['username']; ?>
             </h1>
-
-            <div class="p-10 bg-blue-800 rounded-lg shadow-lg inline-block text-white">
-                <h1 class="text-xl">Total Employees</h1>
-                <p class="text-4xl font-bold"><?php echo $totalEmployees; ?></p>
-            </div>
         </main>
     </div>
-    Z
+
     <?php include('../components/addEmployeeModal.php'); ?>
 
     <?php if (isset($_GET['success'])): ?>
@@ -75,6 +47,8 @@ $totalEmployees = $countResult->fetch_assoc()['total'];
             </div>
         </div>
     <?php endif; ?>
+
+    <script src="../script.js"></script>
 </body>
 
 </html>

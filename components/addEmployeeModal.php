@@ -1,22 +1,5 @@
 <?php
-$dept_id = $first_name = $last_name = $position = $contact = "";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-    $dept_id = $_POST['department'];
-    $first_name = htmlspecialchars($_POST['first_name']);
-    $last_name = htmlspecialchars($_POST['last_name']);
-    $position = htmlspecialchars($_POST['position']);
-    $contact = htmlspecialchars($_POST['contact']);
-
-    if (!empty($dept_id) && !empty($first_name) && !empty($last_name) && !empty($position) && !empty($contact)) {
-        $stmt = $conn->prepare("INSERT INTO employees(dept_id, first_name, last_name, employee_position, employee_contact) VALUES(?, ?, ?, ?, ?)");
-        $stmt->bind_param("issss", $dept_id, $first_name, $last_name, $position, $contact);
-        if ($stmt->execute()) {
-            header("Location: adminDashboard.php?success=1");
-            exit();
-        }
-    }
-}
 ?>
 
 <div class="<?php echo ($_SERVER['REQUEST_METHOD'] == 'POST') ? 'flex opacity-100' : 'hidden opacity-0'; ?> fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center transition-opacity duration-300"

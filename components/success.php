@@ -15,4 +15,14 @@
             </button>
         </div>
     </div>
+    <script>
+        function closeSuccessModal() {
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                successModal.classList.add('hidden');
+                // This removes the "?success=1" from the URL without reloading the page
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+    </script>
 <?php endif; ?>

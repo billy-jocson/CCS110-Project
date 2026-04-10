@@ -1,29 +1,32 @@
 <?php
 session_start();
 include('../backend/database.php');
-$loginError = false;
 $username = $password = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = htmlspecialchars($_POST["username"]);
     $password = htmlspecialchars($_POST["password"]);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
 
     if (!empty($username) && !empty($password)) {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['username'] = $username;
-            $_SESSION['username'] != "guest_viewer" ?
-                header('Location: adminDashboard.php') :
-                header('Location: guestDashboard.php');
-            exit();
-        } else {
-            $loginError = true;
-        }
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    if ($user) {
+        echo "<script>alert('Account already exists!')</script>";
+    } else {
+        $stmt = $conn->prepare("INSERT INTO users(username, password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $username, $hash);
+        $stmt->execute();
+        echo "<script>alert('Account created!')</script>";
+        header('Location: login.php');
+        exit();
     }
 }
 ?>
@@ -62,8 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <div class="flex-1 flex flex-col justify-center px-20 gap-5">
             <div>
                 <img src="../assets/PayFlow Logo.png" class="w-20 h-36 object-cover">
-                <h1 class="text-5xl font-bold mb-1">Login</h1>
-                <p>Welcome to PayFlow — Login to Get Started.</p>
+                <h1 class="text-5xl font-bold mb-1">Create Account</h1>
+                <p>Welcome to PayFlow — Create an Account to Get Started.</p>
             </div>
 
             <hr class="text-zinc-300">
@@ -82,37 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <input type="submit" value="Login"
                     class="mt-5 px-2 py-2 bg-blue-700 text-white hover:bg-blue-800 rounded-lg cursor-pointer font-semibold">
             </form>
-            <a href="signUpPage.php" class="text-center underline text-blue-800">Don't have an account?</a>
+            <a href="login.php" class="text-center underline text-blue-800">Have an account?</a>
         </div>
 
         <?php include('../components/incorrectCredentials.php') ?>
     </div>
-
-    <script>
-        const errorModal = document.getElementById('errorModal');
-        const modalContent = document.getElementById('modalContent');
-        const closeModal = document.getElementById('closeModal');
-
-        function showError() {
-            errorModal.classList.remove('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
-        }
-
-        function hideError() {
-            errorModal.classList.add('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-        }
-
-        if (closeModal) closeModal.addEventListener('click', hideError);
-
-        <?php if ($loginError): ?>
-            window.onload = () => {
-                showError();
-            };
-        <?php endif; ?>
-    </script>
 </body>
 
 </html>
