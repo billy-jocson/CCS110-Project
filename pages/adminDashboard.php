@@ -64,7 +64,7 @@ $totalEmployees = $countResult->fetch_assoc()['total'];
             </div>
         </main>
     </div>
-    Z
+
     <?php include('../components/addEmployeeModal.php'); ?>
 
     <?php if (isset($_GET['success'])): ?>

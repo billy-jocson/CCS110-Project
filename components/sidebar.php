@@ -13,11 +13,10 @@
         <?php $_SESSION['username'] == "admin" ? include('adminSidePanel.php') : include('guestSidePanel.php') ?>
     </nav>
 
-    <div class="mt-auto p-5 flex gap-4">
+    <div class="mt-auto p-5 flex gap-4 items-center">
         <img src="../assets/DefaultPFP.png" alt="" class="rounded-full w-10 h-10 aspect-square object-cover">
         <div class="flex flex-col">
             <?php echo "<p class='text-slate-50 font-bold'>$_SESSION[username]</p>" ?>
-            <?php echo "<p class='text-slate-50 italic text-sm'>Administrator</p>" ?>
         </div>
     </div>
 </div>
